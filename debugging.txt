@@ -1,0 +1,7 @@
+c:\program files\smartdeck\bin\hsim.exe
+f0000001
+-selectaid f0000001
+-apdu 805401000409DD12CF04
+-apdu 80540200020F8101
+-apdu 80520300011101
+
