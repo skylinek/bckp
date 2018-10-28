@@ -96,13 +96,27 @@ public class HelloWorldMultOS {
 
         int counter = 1;
 
-        byte[] opp1 = new byte[]{(byte) 0x09,(byte) 0xDD,(byte) 0x12,(byte) 0xCE};
-        byte[] opp2 = new byte[]{0x01};
-        byte[] modulus = new byte[]{(byte) 0x03};
-     //   Test_MOD_ADD(counter, opp1, opp2, modulus);
+        byte[] opp1 = new byte[]{(byte) 0x02};
+        byte[] opp2 = new byte[]{(byte) 0x01};
+        byte[] modulus = new byte[]{(byte) 0xFF};
+       
+     
+        //Test_DES(counter, vstupniText);
+        Test_tripleDES(counter, vstupniText);
         
+       //       Test_SHA(counter, 20, vstupniText); // 20 sha1 , 28 sha224 ,32 sha256  
+        //Test_SHA(counter, 28, vstupniText); // 20 sha1 , 28 sha224 ,32 sha256  
+         //           Test_SHA(counter, 32, vstupniText); // 20 sha1 , 28 sha224 ,32 sha256  
+        //   Test_SHA(counter, 48, vstupniText); // 20 sha1 , 28 sha224 ,32 sha256  
         
-        Test_MOD_INV(counter, opp1, modulus);
+      //  Test_generateRandomNumbers(counter, 255);
+       
+       //             Test_MOD_ADD(counter, opp1, opp2, modulus);
+       // Test_MOD_MUL(counter, opp1, opp2, modulus);
+      //  Test_MOD_EXP(counter, opp1, opp2, modulus);
+      //               Test_MOD_RED(counter, opp1, modulus);
+      //              Test_MOD_INV(counter, opp1, modulus);
+  
         
 
         
@@ -156,7 +170,7 @@ public class HelloWorldMultOS {
                                 (byte) 0x08, 
                                 (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04, (byte) 0x05, (byte) 0x06, (byte) 0x07, (byte) 0x08,
                                 (byte) 0x80};*/
-        byte[] DES = createAPDUComm((byte) 0x80, (byte) 0x31, (byte) 0x00, (byte) 0x00,
+        byte[] DES = createAPDUComm((byte) 0x80, (byte) 0x10, (byte) 0x00, (byte) 0x00,
                 (byte) data.length,
                 data,
                 (byte) data.length);
@@ -183,16 +197,16 @@ public class HelloWorldMultOS {
     public void tripleDES(byte[] data) {
 
         byte[] TRIPLEDES = createAPDUComm((byte) 0x80, (byte) 0x11, (byte) 0x00, (byte) 0x00,
-                (byte) 0x08,
+                (byte) data.length,
                 data,
-                (byte) 0x80);
+                (byte) data.length);
         byte[] rDES = sendAPDU(TRIPLEDES);
     }
 /**
      * TESTOVACI metoda pro triple des funciton on card
      *
      */
-     private void Test_tripelDES(int counter, byte[] vstup) {
+     private void Test_tripleDES(int counter, byte[] vstup) {
         long timeStart = System.currentTimeMillis();
         for (int i = 0; i < counter; i++) {
                 tripleDES(vstup);  
@@ -381,7 +395,7 @@ public class HelloWorldMultOS {
         byte[] ADD3 = createAPDUComm((byte) 0x80, (byte) priznak, (byte) 0x03, (byte) 0x00,
                 (byte) n.length,
                 n,
-                (byte) count_of_return);
+                (byte) n.length);
         byte[] rMUL3 = sendAPDU(ADD3);
     }
     /**

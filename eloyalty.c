@@ -107,12 +107,39 @@ main(void)
             velikostDat= Lc;
                         	 lenHash=sizeof(key);
                         	  //lenHash=0x10;
+                        	 
+                        	 
+                        	 __push((BYTE*)&key);				// klíè
+                        	       __push((BYTE*)&cipherText);
+                        	       __push((BYTE*)&apduData);
+                        	       __code(PRIM, 0xc1); 					// šifruj DES ECB - kód viz dokumentace
+
+                        	       			
+                        	       
+                        	       memcpy(apduData, cipherText, 8);
+                        	       __push((BYTE*)&key+8);	// klíè
+                        	       __push((BYTE*)&cipherText);
+                        	                          	       __push((BYTE*)&apduData);
+                        	                          	       __code(PRIM, 0xc1); 	
+                        	                          	       
+                        	                          	     memcpy(apduData, cipherText, 8);
+                        	                          	       
+                        	                          	     __push((BYTE*)&key);				// klíè
+														   __push((BYTE*)&cipherText);
+														   __push((BYTE*)&apduData);
+														   __code(PRIM, 0xc1); 	
+
+                        	       memcpy(apduData, cipherText, 8);
+                        	 
+                        
+                        	         
             	  	  	  	  __push((BYTE*)&key);
                         	 __push((BYTE*)lenHash);
                              __push((BYTE*)&cipherText);
                              __push((BYTE*)&apduData);
                              __code(PRIM, 0xD9);
                              
+                                      
                           	
                                   	  __push((BYTE*)&key);
                                   	 __push((BYTE*)lenHash);
@@ -401,13 +428,15 @@ main(void)
 			velikostModField = Lc;
 			memcpy(MULField, apduData, velikostModField);
 
+			
+			
 			__push((BYTE*) velikostModField); // len modulus
 			__push((BYTE*) &MULField);  //modulus
 			__push((BYTE*) velikostOpp1);  // len opp
 			__push((BYTE*) &MULOpp1); // operand
 			__push((BYTE*) &MODRes); // result
-			__code(PRIM, 0xD0, 0x01);
-
+			__code(PRIM, 0xD0,0x01);
+			
 			memcpy(apduData, MODRes, velikostModField);
 			ExitLa(velikostModField);
 		} else {
