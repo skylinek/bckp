@@ -10,8 +10,7 @@
 #include <multosarith.h>
 #include <string.h>
 #include <ISO7816.h>
-#include <multosccr.h> // for ZFlag()
-#define ERR_OK          0x9000
+#include <multosccr.h> // for ZFlag()#define ERR_OK          0x9000
 #define ERR_WRONGCLASS  0x6402
 #define ERR_BAD_INS     0x6404
 #define ERR_UNDERFLOW   0x6406
@@ -255,12 +254,9 @@ void main(void) {
 			ExitLa(velikostOpp2);
 
 		} else if (P1 == 0x03) {
+
 			velikostDat = Lc;
-
-			for (i = 0; i < Lc; i++) {
-
-				MULField[i] = apduData[i];
-			}
+			memcpy(MULField, apduData, velikostModField);
 
 			__push((BYTE*) velikostDat); // lenMod
 			__push((BYTE*) &MULOpp1);
@@ -268,8 +264,8 @@ void main(void) {
 			__push((BYTE*) &MULField);
 			__code(PRIM, 0xC8);
 
-			memcpy(apduData, MULOpp1, 0x01);
-			ExitLa(0x01);
+			memcpy(apduData, MULOpp1, velikostDat);
+			ExitLa(velikostDat);
 		} else {
 			ExitSW(ERR_WRONGCLASS);
 		}
